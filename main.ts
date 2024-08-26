@@ -10,7 +10,7 @@ interface TableRowData {
 
 // Función para validar los datos del formulario
 function validateInput(nombre: string, descripcion: string): boolean {
-    if (!nombre || !descripcion) {
+    if (!nombre.trim() || !descripcion.trim()) {
         alert('Por favor, complete todos los campos correctamente.');
         return false;
     }
@@ -21,6 +21,7 @@ function validateInput(nombre: string, descripcion: string): boolean {
 function addOrUpdateToTable(nombre: string, descripcion: string): void {
     const tableBody = document.querySelector('#dataTable tbody') as HTMLTableSectionElement;
 
+    // Crea un objeto tableRowData
     const tableRowData: TableRowData = {
         nombre: nombre,
         descripcion: descripcion,

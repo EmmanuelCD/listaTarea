@@ -3,7 +3,7 @@ var currentEditingRow = null;
 var rowId = 0; // Para asignar IDs únicos a las filas
 // Función para validar los datos del formulario
 function validateInput(nombre, descripcion) {
-    if (nombre || !descripcion) {
+    if (!nombre.trim() || !descripcion.trim()) {
         alert('Por favor, complete todos los campos correctamente.');
         return false;
     }
@@ -12,11 +12,18 @@ function validateInput(nombre, descripcion) {
 // Función para añadir o actualizar los datos en la tabla
 function addOrUpdateToTable(nombre, descripcion) {
     var tableBody = document.querySelector('#dataTable tbody');
+    // Crea un objeto tableRowData
+    var tableRowData = {
+        nombre: nombre,
+        descripcion: descripcion,
+        estado: currentEditingRow ? (currentEditingRow.getElementsByTagName('td')[3].textContent || 'Activo') : 'Activo'
+    };
     if (currentEditingRow) {
         // Actualizar la fila existente
         var cells = currentEditingRow.getElementsByTagName('td');
-        cells[1].textContent = nombre;
-        cells[2].textContent = descripcion;
+        cells[1].textContent = tableRowData.nombre;
+        cells[2].textContent = tableRowData.descripcion;
+        cells[3].textContent = tableRowData.estado;
         currentEditingRow = null; // Limpia la fila en edición
     }
     else {
@@ -30,9 +37,9 @@ function addOrUpdateToTable(nombre, descripcion) {
         var cellStatus = newRow_1.insertCell(3); // Columna para el estado
         var cellActions = newRow_1.insertCell(4);
         cellId.textContent = rowId.toString();
-        cellName.textContent = nombre;
-        cellDescripcion.textContent = descripcion;
-        cellStatus.textContent = 'Activo'; // Estado inicial
+        cellName.textContent = tableRowData.nombre;
+        cellDescripcion.textContent = tableRowData.descripcion;
+        cellStatus.textContent = tableRowData.estado;
         // Crear botones de modificar, eliminar y terminar
         var editButton = document.createElement('button');
         editButton.textContent = 'Modificar';
