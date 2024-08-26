@@ -2,20 +2,20 @@ var _a;
 var currentEditingRow = null;
 var rowId = 0; // Para asignar IDs únicos a las filas
 // Función para validar los datos del formulario
-function validateInput(name, descripcion) {
-    if (!name || !descripcion) {
+function validateInput(nombre, descripcion) {
+    if (nombre || !descripcion) {
         alert('Por favor, complete todos los campos correctamente.');
         return false;
     }
     return true;
 }
 // Función para añadir o actualizar los datos en la tabla
-function addOrUpdateToTable(name, descripcion) {
+function addOrUpdateToTable(nombre, descripcion) {
     var tableBody = document.querySelector('#dataTable tbody');
     if (currentEditingRow) {
         // Actualizar la fila existente
         var cells = currentEditingRow.getElementsByTagName('td');
-        cells[1].textContent = name;
+        cells[1].textContent = nombre;
         cells[2].textContent = descripcion;
         currentEditingRow = null; // Limpia la fila en edición
     }
@@ -30,7 +30,7 @@ function addOrUpdateToTable(name, descripcion) {
         var cellStatus = newRow_1.insertCell(3); // Columna para el estado
         var cellActions = newRow_1.insertCell(4);
         cellId.textContent = rowId.toString();
-        cellName.textContent = name;
+        cellName.textContent = nombre;
         cellDescripcion.textContent = descripcion;
         cellStatus.textContent = 'Activo'; // Estado inicial
         // Crear botones de modificar, eliminar y terminar
@@ -57,9 +57,9 @@ function deleteRow(row) {
 // Función para modificar una fila
 function editRow(row) {
     var cells = row.getElementsByTagName('td');
-    var name = cells[1].textContent || '';
+    var nombre = cells[1].textContent || '';
     var descripcion = cells[2].textContent || '';
-    document.getElementById('name').value = name;
+    document.getElementById('nombre').value = nombre;
     document.getElementById('descripcion').value = descripcion;
     // Cambia el botón para que funcione como "Actualizar"
     var addButton = document.getElementById('addButton');
@@ -74,17 +74,17 @@ function finishRow(row) {
 }
 // Función para limpiar el formulario
 function clearForm() {
-    document.getElementById('name').value = '';
+    document.getElementById('nombre').value = '';
     document.getElementById('descripcion').value = '';
 }
 // Evento al hacer clic en el botón
 (_a = document.getElementById('addButton')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
-    var nameInput = document.getElementById('name');
+    var nameInput = document.getElementById('nombre');
     var descripcionText = document.getElementById('descripcion');
-    var name = nameInput.value.trim();
+    var nombre = nameInput.value.trim();
     var descripcion = descripcionText.value.trim();
-    if (validateInput(name, descripcion)) {
-        addOrUpdateToTable(name, descripcion);
+    if (validateInput(nombre, descripcion)) {
+        addOrUpdateToTable(nombre, descripcion);
         clearForm();
         document.getElementById('addButton').textContent = 'Añadir a la tabla';
     }

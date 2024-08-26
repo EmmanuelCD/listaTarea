@@ -1,24 +1,38 @@
 let currentEditingRow: HTMLTableRowElement | null = null;
 let rowId = 0; // Para asignar IDs únicos a las filas
 
+// Interfaz para los datos de la fila de la tabla
+interface TableRowData {
+    nombre: string;
+    descripcion: string;
+    estado: string; // Para el estado de la fila
+}
+
 // Función para validar los datos del formulario
-function validateInput(name: string, descripcion: string): boolean {
-    if (!name || !descripcion) {
+function validateInput(nombre: string, descripcion: string): boolean {
+    if (!nombre || !descripcion) {
         alert('Por favor, complete todos los campos correctamente.');
         return false;
     }
     return true;
 }
- 
+
 // Función para añadir o actualizar los datos en la tabla
-function addOrUpdateToTable(name: string, descripcion: string): void {
+function addOrUpdateToTable(nombre: string, descripcion: string): void {
     const tableBody = document.querySelector('#dataTable tbody') as HTMLTableSectionElement;
+
+    const tableRowData: TableRowData = {
+        nombre: nombre,
+        descripcion: descripcion,
+        estado: currentEditingRow ? (currentEditingRow.getElementsByTagName('td')[3].textContent || 'Activo') : 'Activo'
+    };
 
     if (currentEditingRow) {
         // Actualizar la fila existente
         const cells = currentEditingRow.getElementsByTagName('td');
-        cells[1].textContent = name;
-        cells[2].textContent = descripcion;
+        cells[1].textContent = tableRowData.nombre;
+        cells[2].textContent = tableRowData.descripcion;
+        cells[3].textContent = tableRowData.estado;
         currentEditingRow = null; // Limpia la fila en edición
     } else {
         // Añadir una nueva fila
@@ -32,9 +46,9 @@ function addOrUpdateToTable(name: string, descripcion: string): void {
         const cellActions = newRow.insertCell(4);
 
         cellId.textContent = rowId.toString();
-        cellName.textContent = name;
-        cellDescripcion.textContent = descripcion;
-        cellStatus.textContent = 'Activo'; // Estado inicial
+        cellName.textContent = tableRowData.nombre;
+        cellDescripcion.textContent = tableRowData.descripcion;
+        cellStatus.textContent = tableRowData.estado;
 
         // Crear botones de modificar, eliminar y terminar
         const editButton = document.createElement('button');
@@ -65,10 +79,10 @@ function deleteRow(row: HTMLTableRowElement): void {
 // Función para modificar una fila
 function editRow(row: HTMLTableRowElement): void {
     const cells = row.getElementsByTagName('td');
-    const name = cells[1].textContent || '';
+    const nombre = cells[1].textContent || '';
     const descripcion = cells[2].textContent || '';
 
-    (document.getElementById('name') as HTMLInputElement).value = name;
+    (document.getElementById('nombre') as HTMLInputElement).value = nombre;
     (document.getElementById('descripcion') as HTMLTextAreaElement).value = descripcion;
 
     // Cambia el botón para que funcione como "Actualizar"
@@ -87,20 +101,20 @@ function finishRow(row: HTMLTableRowElement): void {
 
 // Función para limpiar el formulario
 function clearForm(): void {
-    (document.getElementById('name') as HTMLInputElement).value = '';
+    (document.getElementById('nombre') as HTMLInputElement).value = '';
     (document.getElementById('descripcion') as HTMLTextAreaElement).value = '';
 }
 
 // Evento al hacer clic en el botón
 document.getElementById('addButton')?.addEventListener('click', () => {
-    const nameInput = document.getElementById('name') as HTMLInputElement;
+    const nameInput = document.getElementById('nombre') as HTMLInputElement;
     const descripcionText = document.getElementById('descripcion') as HTMLTextAreaElement;
 
-    const name = nameInput.value.trim();
+    const nombre = nameInput.value.trim();
     const descripcion = descripcionText.value.trim();
 
-    if (validateInput(name, descripcion)) {
-        addOrUpdateToTable(name, descripcion);
+    if (validateInput(nombre, descripcion)) {
+        addOrUpdateToTable(nombre, descripcion);
         clearForm();
         (document.getElementById('addButton') as HTMLButtonElement).textContent = 'Añadir a la tabla';
     }
