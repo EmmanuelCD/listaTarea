@@ -41,15 +41,22 @@ function addOrUpdateToTable(nombre, descripcion) {
         cellDescripcion.textContent = tableRowData.descripcion;
         cellStatus.textContent = tableRowData.estado;
         // Crear botones de modificar, eliminar y terminar
+        // Crear el botón de editar con icono
         var editButton = document.createElement('button');
-        editButton.textContent = 'Modificar';
+        editButton.className = 'btn btn-primary'; // Añadir clase de Bootstrap para estilos
+        editButton.innerHTML = '<i class="bi bi-pencil"></i> '; // Añadir icono y texto
         editButton.onclick = function () { return editRow(newRow_1); };
+        // Crear el botón de eliminar con icono
         var deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Eliminar';
+        deleteButton.className = 'btn btn-danger'; // Añadir clase de Bootstrap para estilos
+        deleteButton.innerHTML = '<i class="bi bi-trash"></i>'; // Añadir icono y texto
         deleteButton.onclick = function () { return deleteRow(newRow_1); };
+        // Crear el botón de terminar con icono
         var finishButton = document.createElement('button');
-        finishButton.textContent = 'Terminar';
+        finishButton.className = 'btn btn-success'; // Añadir clase de Bootstrap para estilos
+        finishButton.innerHTML = '<i class="bi bi-check-circle"></i>'; // Añadir icono y texto
         finishButton.onclick = function () { return finishRow(newRow_1); };
+        // Añadir los botones a la celda de acciones
         cellActions.appendChild(editButton);
         cellActions.appendChild(deleteButton);
         cellActions.appendChild(finishButton);

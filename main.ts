@@ -52,18 +52,23 @@ function addOrUpdateToTable(nombre: string, descripcion: string): void {
         cellStatus.textContent = tableRowData.estado;
 
         // Crear botones de modificar, eliminar y terminar
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Modificar';
-        editButton.onclick = () => editRow(newRow);
 
+        const editButton = document.createElement('button');
+        editButton.className = 'btn btn-primary';  
+        editButton.innerHTML = '<i class="bi bi-pencil"></i> '; 
+        editButton.onclick = () => editRow(newRow);
+        
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Eliminar';
+        deleteButton.className = 'btn btn-danger'; 
+        deleteButton.innerHTML = '<i class="bi bi-trash"></i>'; 
         deleteButton.onclick = () => deleteRow(newRow);
 
         const finishButton = document.createElement('button');
-        finishButton.textContent = 'Terminar';
+        finishButton.className = 'btn btn-success';  
+        finishButton.innerHTML = '<i class="bi bi-check-circle"></i>';  
         finishButton.onclick = () => finishRow(newRow);
 
+        // Añadir los botones a la celda de acciones
         cellActions.appendChild(editButton);
         cellActions.appendChild(deleteButton);
         cellActions.appendChild(finishButton);
@@ -97,7 +102,7 @@ function editRow(row: HTMLTableRowElement): void {
 // Función para terminar una fila (cambiar el estado a "Terminado")
 function finishRow(row: HTMLTableRowElement): void {
     const cells = row.getElementsByTagName('td');
-    cells[3].textContent = 'Terminado'; // Cambia el estado a "Terminado"
+    cells[3].textContent = 'Terminado';
 }
 
 // Función para limpiar el formulario
