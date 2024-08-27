@@ -8,7 +8,7 @@ interface TableRowData {
     estado: string; // Para el estado de la fila
 }
 
-// Función para validar los datos del formulario
+// Función para validar los datos del formulario 
 function validateInput(nombre: string, descripcion: string): boolean {
     if (!nombre.trim() || !descripcion.trim()) {
         alert('Por favor, complete todos los campos correctamente.');
